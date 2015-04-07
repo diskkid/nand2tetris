@@ -40,4 +40,60 @@ CHIP CPU {
 
     PARTS:
     // Put your code here:
+    DRegister(in=din, out=dout, load=compute4);
+
+    Not(in=instruction[15], out=notinst15);
+    Or(a=compute5, b=notinst15, out=loada);
+    ARegister(in=ain, out=aout, out[0..14]=addressM, load=loada);
+    
+    // Branch
+    DMux16(in=instruction, sel=instruction[15], a[0..14]=addraddr,
+           b[0]=compute0,
+           b[1]=compute1,
+           b[2]=compute2,
+           b[3]=compute3,
+           b[4]=compute4,
+           b[5]=compute5,
+           b[6]=compute6,
+           b[7]=compute7,
+           b[8]=compute8,
+           b[9]=compute9,
+           b[10]=compute10,
+           b[11]=compute11,
+           b[12]=compute12,
+           b[13]=compute13,
+           b[14]=compute14,
+           b[15]=compute15);
+
+    // Compute instruction
+    Mux16(a=aout, b=inM, sel=compute12, out=aluyin);
+    ALU(x=dout, y=aluyin,
+        zx=compute11, nx=compute10,
+        zy=compute9, ny=compute8,
+        f=compute7, no=compute6,
+        out=aluout, zr=zr, ng=ng);
+    
+    Mux16(a=false, b=aluout, sel=compute3, out=outM);
+    Mux16(a=false, b=aluout, sel=compute4, out=din);
+    Mux16(a=false, b=aluout, sel=compute5, out=compaddr);
+
+    And(a=compute3, b=true, out=writeM);
+    Or16(a[0..14]=addraddr, b=compaddr, out=ain);
+
+    // PC
+    Not(in=zr, out=notzr);
+    Not(in=ng, out=notng);
+    And4Way(a=compute0, b=notzr, c=notng, d=true, out=j1);
+    And4Way(a=compute1, b=zr, c=true, d=true, out=j2);
+    And4Way(a=compute0, b=compute1, c=notng, d=true, out=j3);
+    And4Way(a=compute2, b=ng, c=true, d=true, out=j4);
+    And4Way(a=compute0, b=compute2, c=notzr, d=true, out=j5);
+    And4Way(a=compute1, b=compute2, c=zr, d=true, out=j61);
+    And4Way(a=compute1, b=compute2, c=ng, d=true, out=j62);
+    Or(a=j61, b=j62, out=j6);
+    And4Way(a=compute0, b=compute1, c=compute2, d=true, out=j7);
+    Or8Way(in[0]=j1, in[1]=j2, in[2]=j3, in[3]=j4, in[4]=j5, in[5]=j6, in[6]=j7, in[7]=false, out=jump);
+    Not(in=jump, out=inc);
+
+    PC(in=aout, inc=inc, load=jump, reset=reset, out[0..14]=pc);
 }

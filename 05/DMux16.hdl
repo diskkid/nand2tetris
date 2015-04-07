@@ -1,0 +1,21 @@
+CHIP DMux16 {
+  IN in[16], sel;
+  OUT a[16], b[16];
+  PARTS:
+  DMux(sel=sel, in=in[0], a=a[0], b=b[0]);
+  DMux(sel=sel, in=in[1], a=a[1], b=b[1]);
+  DMux(sel=sel, in=in[2], a=a[2], b=b[2]);
+  DMux(sel=sel, in=in[3], a=a[3], b=b[3]);
+  DMux(sel=sel, in=in[4], a=a[4], b=b[4]);
+  DMux(sel=sel, in=in[5], a=a[5], b=b[5]);
+  DMux(sel=sel, in=in[6], a=a[6], b=b[6]);
+  DMux(sel=sel, in=in[7], a=a[7], b=b[7]);
+  DMux(sel=sel, in=in[8], a=a[8], b=b[8]);
+  DMux(sel=sel, in=in[9], a=a[9], b=b[9]);
+  DMux(sel=sel, in=in[10], a=a[10], b=b[10]);
+  DMux(sel=sel, in=in[11], a=a[11], b=b[11]);
+  DMux(sel=sel, in=in[12], a=a[12], b=b[12]);
+  DMux(sel=sel, in=in[13], a=a[13], b=b[13]);
+  DMux(sel=sel, in=in[14], a=a[14], b=b[14]);
+  DMux(sel=sel, in=in[15], a=a[15], b=b[15]);
+}
