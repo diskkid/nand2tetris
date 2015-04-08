@@ -68,16 +68,3 @@ class Parser
     @asm[@pc]
   end
 end
-
-path = ARGV[0]
-exit unless path && File.exist?(path)
-parser = Parser.new(File.new(path))
-
-while(parser.hasMoreCommands)
-  print "[#{parser.commandType}] "
-  print "[sym: #{parser.symbol}] " if parser.symbol
-  print "[comp: #{parser.comp}]" if parser.comp
-  print "[jump: #{parser.jump}]" if parser.jump
-  puts ''
-  parser.advance
-end
