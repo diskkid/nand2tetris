@@ -44,6 +44,7 @@ class Parser
       index = op.index('=')
       return op[0...index] if index
     end
+    return ''
   end
 
   def comp
@@ -61,6 +62,10 @@ class Parser
       index = op.index(';')
       return op[(index+1)..-1] if index
     end
+  end
+
+  def dump
+    puts "#{@pc}: #{op}"
   end
 
   private
