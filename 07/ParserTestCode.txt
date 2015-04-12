@@ -1,0 +1,11 @@
+add
+sub
+neg
+eq
+gt
+lt
+and
+or
+not
+push argument 1
+pop local 0
